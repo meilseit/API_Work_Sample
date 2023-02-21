@@ -1,0 +1,32 @@
+version: '3'
+services:
+    redis:
+        image: redis:alpine
+        container_name: redis
+        command: "redis-server --bind redis --port 6379"
+        ports:
+          - '6379:6379'
+        volumes:
+            - ./redis:/redis
+
+    flask-app:
+        image: app-image
+        container_name: flask-app
+        build: app
+        restart: always
+        ports:
+            - '8001:8001'
+        volumes:
+            - ./app:/app
+
+    worker:
+        image: app-image:latest
+        container_name: worker
+        volumes:
+            - ./app:/app
+        depends_on:
+            - redis
+        command: rq worker pipeline --url redis://redis:6379
+        links:
+            - redis
+
