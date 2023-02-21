@@ -4,12 +4,12 @@ Created A simple API with Python Flask and Flask-Restful libraries while using R
 
 ### Relevent Commands:
 docker setup: [easiest way for me to get this running on docker desktop]
-'''
+```
 docker-compose build --no-cache  
 docker-compose up -d
-'''
+```
 test setup: [this can be run in the docker flask-app container to execute test cases]
-'''
+```
 python -m pytest OPTIONAL[SPECIFIC TEST FOLDERS]
-'''
+```
 Most of my addtional testing was done with CURL commands in the flask-app container terminal since I was having trouble getting Postman API Software to communicate well
