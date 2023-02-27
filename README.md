@@ -1,6 +1,6 @@
 # API_Work_Sample
 ### Brief Description:
-Created A simple API with Python Flask and Flask-Restful libraries while using Redis to host queues and workers to preform time intensive tasks outside of the API. I decided to use a simple csv to presist the metadata seeing as this was smaller project (big mistake) should have just commited to SQL. Even so everthing should be running smoothly  and the csv makes it very easy to check if data is being stored correctly! The app is split into 3 docker containers: flask-app, redis, worker. 
+Created A simple API test peice with Python Flask and Flask-Restful libraries. Used Redis to host queues and workers to preform mock time intensive tasks outside of the API. This async behavior make the API not only much more efficient at handling many request but also ensures TCP connections do not stay open for too long. I decided to use a simple csv to presist the metadata seeing as this was smaller project. The app is split into 3 docker containers: flask-app, redis, worker. The project also supports e2e testing.
 
 ### Relevent Commands:
 docker setup: [easiest way for me to get this running on docker desktop]
