@@ -1,16 +1,16 @@
-import pandas as pd
+from db_interface import DB_Interface
 
-path = './task_data.csv'
+
 
 def test_clear_database():
     '''
     Simple way to override current database with an
     empty dataframe
     '''
-    new_df = pd.DataFrame(columns=['object_id','job_id','status','timestamp_start','timestamp_end','sleep_time'])
-    new_df.to_csv(path, index=False)
-    df = pd.read_csv(path)
-    assert df.empty is True #check to make sure the data frame is in fact empty
+    db_interface = DB_Interface()
+    db_contents = db_interface.delete_all()
+    assert db_contents.empty
+
 
 
 
@@ -19,25 +19,30 @@ def test_populate_database():
     Make sure that database updating works.
     Then confirm the contents of the default values
     '''
-    new_df = pd.DataFrame({
-            'object_id': ['test_1'],
-            'job_id': ['ABCDE'],
-            'status': ['completed'], 
-            'timestamp_start': ['2023-02-21 05:41:40.714896'],
-            'timestamp_end': ['2023-02-21 05:42:15.308726'], 
-            'sleep_time': ['35']
-        })
-    new_df.to_csv(path, index = False)
-    new_df = pd.read_csv(path)
-    values = (new_df.values[-1:])[0]
+    metadata = {
+            'object_id': 'test_1',
+            'job_id': 'ABCDE',
+            'status': 'completed',
+            'start': '2023-02-21 05:41:40.714896',
+            'end': '2023-02-21 05:42:15.308726',
+            'interval': '35'
+        }
+    db_interface = DB_Interface()
+    db_interface.put(metadata)
+    db_content = db_interface.get_by_job_id('ABCDE')
+    assert metadata['object_id'] in db_content['object_id']
+    assert metadata['job_id'] in db_content['job_id']
+    assert metadata['status'] in db_content['status']
+    assert metadata['start'] in db_content['start']
+    assert metadata['end'] in db_content['end']
+    assert int(metadata['interval']) in db_content['interval']
+
+
+
+
+
+
     
-    assert len(values) == 6
-    assert values[0] == 'test_1'
-    assert values[1] ==  'ABCDE'
-    assert values[2] == 'completed'
-    assert values[3] == '2023-02-21 05:41:40.714896'
-    assert values[4] == '2023-02-21 05:42:15.308726'
-    assert values[5] == 35
     
     
 
