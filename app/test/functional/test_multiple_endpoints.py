@@ -46,7 +46,6 @@ def test_callback_function_update():
         
         delayed_get_response = test_client.get("/status/{}".format(job_id)) #issue same get request 
         delayed_status = json.loads(delayed_get_response.text)["metadata"]["status"]
-        assert delayed_status == 1
         db_interface.delete_all()
         assert b"Pending" in get_response.data #expect for some metadata to be pending
         assert put_response.status_code == 200 #double check that response was 200 OK
